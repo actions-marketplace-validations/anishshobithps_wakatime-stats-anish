@@ -20,7 +20,7 @@ inputs:
   SHOW_PROJECTS:
     required: false
     description: 'Show the list of projects worked on in dev metrics'
-    default: "True"
+    default: "False"
 
   SHOW_EDITORS:
     required: false
@@ -55,7 +55,7 @@ inputs:
   SHOW_LOC_CHART:
     required: false
     description: ""
-    default: "True"
+    default: "False"
 
   SHOW_DAYS_OF_WEEK:
     required: false
@@ -65,7 +65,7 @@ inputs:
   SHOW_PROFILE_VIEWS:
     required: false
     description: "Shows the current profile views"
-    default: "True"
+    default: "False"
 
   SHOW_SHORT_INFO:
     required: false
@@ -90,7 +90,7 @@ inputs:
   COMMIT_MESSAGE:
     required: false
     description: "Git commit message"
-    default: "Updated with Dev Metrics"
+    default: "new commit - stats"
   
   SHOW_UPDATED_DATE:
     required: false

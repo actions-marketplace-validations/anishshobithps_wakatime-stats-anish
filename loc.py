@@ -64,7 +64,7 @@ class LinesOfCode:
         filteredCommitsEndPoint = commitsURL + '?author=' + self.username
         filteredCommitsResult = self.run_query_v3(filteredCommitsEndPoint)
         # This ignores the error message you get when you try to list commits for an empty repository
-        if not type(filteredCommitsResult) == list:
+        if type(filteredCommitsResult) != list:
             return
         this_year = datetime.datetime.utcnow().year
 
@@ -98,11 +98,11 @@ class LinesOfCode:
 
     def pushChart(self):
         repo = self.g.get_repo(f"{self.username}/{self.username}")
-        committer = InputGitAuthor('readme-bot', '41898282+github-actions[bot]@users.noreply.github.com')
+        committer = InputGitAuthor('realnub', '85113106+realnub@users.noreply.github.com')
         with open('bar_graph.png', 'rb') as input_file:
             data = input_file.read()
         try:
             contents = repo.get_contents("charts/bar_graph.png")
-            repo.update_file(contents.path, "Charts Updated", data, contents.sha, committer=committer)
+            repo.update_file(contents.path, "new commit - charts", data, contents.sha, committer=committer)
         except Exception as e:
-            repo.create_file("charts/bar_graph.png", "Charts Added", data, committer=committer)
+            repo.create_file("charts/bar_graph.png", "new commit - charts", data, committer=committer)

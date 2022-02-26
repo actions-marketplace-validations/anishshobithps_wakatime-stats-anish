@@ -1,4 +1,6 @@
 > Looking For Translation to different languages & Locale  [#23](https://github.com/anmol098/waka-readme-stats/issues/23)
+>
+> This repo isn't modified for you. Go check [waka-readme-stats](https://github.com/anmol098/waka-readme-stats)
 
 # Dev Metrics in Readme with added feature flags 🎌
 
@@ -406,3 +408,7 @@ Made with :heart: and Python 🐍.
 > [athul/waka-readme](https://github.com/athul/waka-readme)
 
 ### This project need a **star** ⭐ from you ♥.
+
+<p align="center">
+  <a href=https://da.gd/aditya><img src="https://da.gd/count"/></a>
+</p>
