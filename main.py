@@ -1,27 +1,27 @@
 """
 Readme Development Metrics With waka time progress
 """
-import re
-import os
 import base64
-import time
-from pytz import timezone
-import pytz
-import requests
-from github import Github, GithubException, InputGitAuthor
 import datetime
+import json
+import math
+import os
+import re
+import traceback
+from datetime import date
 from random import randint
 from string import Template
-from loc import LinesOfCode
-import traceback
-import humanize
+from time import sleep
 from urllib.parse import quote
-import json
-import sys
-from datetime import date
-import math
 
+import humanize
+import pytz
+import requests
 from dotenv import load_dotenv
+from github import Github, GithubException, InputGitAuthor
+from pytz import timezone
+
+from loc import LinesOfCode
 
 load_dotenv()
 
@@ -204,7 +204,6 @@ def make_list(data: list):
     cnt = randint(6, 9)
     for l in data[:cnt]:
         if l["percent"] < 1:
-            cnt += 1
             continue
         ln = len(l["name"])
         ln_text = len(l["text"])
@@ -224,7 +223,7 @@ def make_commit_list(data: list):
     return " \n".join(data_list)
 
 
-def generate_commit_list(tz):  # sourcery skip: switch
+def generate_commit_list(tz):
     string = ""
     result = run_query(userInfoQuery)  # Execute the query
     username = result["data"]["viewer"]["login"]
@@ -277,20 +276,20 @@ def generate_commit_list(tz):  # sourcery skip: switch
                 if 0 <= hour < 6:
                     night += 1
 
-                if weekday == "Monday":
-                    Monday += 1
-                if weekday == "Tuesday":
-                    Tuesday += 1
-                if weekday == "Wednesday":
-                    Wednesday += 1
-                if weekday == "Thursday":
-                    Thursday += 1
                 if weekday == "Friday":
                     Friday += 1
-                if weekday == "Saturday":
+                elif weekday == "Monday":
+                    Monday += 1
+                elif weekday == "Saturday":
                     Saturday += 1
-                if weekday == "Sunday":
+                elif weekday == "Sunday":
                     Sunday += 1
+                elif weekday == "Thursday":
+                    Thursday += 1
+                elif weekday == "Tuesday":
+                    Tuesday += 1
+                elif weekday == "Wednesday":
+                    Wednesday += 1
         except Exception as ex:
             if str(ex) != "'NoneType' object is not subscriptable":
                 print(f"Exception occurred {str(ex)}")
@@ -438,7 +437,7 @@ def get_waka_time_stats():
                         + "\n\n"
                     )
                     tried = True
-                    print("Successfully connected to Wakatime API")
+                    print("Successfully connected to Wakatime API.")
                     break
                 except Exception as ex:
                     print("Error in Waka Time " + ex + " Trying again")
@@ -447,7 +446,7 @@ def get_waka_time_stats():
                         f"https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key={waka_key}"
                     )
                     data = request.json()
-                    time.sleep(3)
+                    sleep(3)
                 if tries == 5:
                     break
             if tries == 5 and not tried:
@@ -570,7 +569,7 @@ def get_short_info(github):
         except:
             print("Error with GitHub API. Trying again in 3 seconds.")
             tried = False
-            time.sleep(3)
+            sleep(3)
         if tries == 5:
             break
     if tries == 5 and not tried:
@@ -628,7 +627,7 @@ def get_stats(github):
                     + quote(str(data["data"]["text"]))
                     + "-blue?style=plastic&logo=Codepen)\n\n"
                 )
-                print("Code Time added successfully!")
+                print("Code Time added successfully.")
                 break
             else:
                 tried = False
@@ -637,7 +636,7 @@ def get_stats(github):
                 )
                 data = request.json()
                 print("Error with adding Code Time. Trying again in 3 seconds.")
-                time.sleep(3)
+                sleep(3)
             if tries == 5:
                 break
     if tries == 5 and not tried:
