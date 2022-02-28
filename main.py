@@ -9,7 +9,6 @@ import os
 import re
 import traceback
 from datetime import date
-from random import randint
 from string import Template
 from time import sleep
 from urllib.parse import quote
@@ -201,9 +200,11 @@ def make_graph(percent: float):
 def make_list(data: list):
     """Make List"""
     data_list = []
-    cnt = randint(6, 9)
+    cnt = 7
     for l in data[:cnt]:
         if l["percent"] < 1:
+            continue
+        if l["name"] == "Markdown":
             continue
         ln = len(l["name"])
         ln_text = len(l["text"])
@@ -586,13 +587,21 @@ def get_short_info(github):
 
     string += "> 📦 " + translate["Used in GitHub's Storage"] % disk_usage + " \n > \n"
     public_repo = user_info.public_repos
+    private_repo = user_info.owned_private_repos
+    if private_repo is None:
+        private_repo = 0
     string += "> 📜 "
     string += (
         translate["public repositories"] % public_repo + " " + "\n > \n"
         if public_repo != 1
         else translate["public repository"] % public_repo + " " + "\n > \n"
     )
-    string += "> 🔑 ∞ private repositories.\n\n"
+    string += "> 🔑 "
+    string += (
+        translate["private repositories"] % private_repo + " " + " \n > \n"
+        if private_repo != 1
+        else translate["private repository"] % private_repo + " " + "\n > \n"
+    )
 
     return string
 
