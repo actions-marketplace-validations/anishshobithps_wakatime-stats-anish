@@ -8,7 +8,6 @@ import math
 import os
 import re
 import traceback
-from datetime import date
 from string import Template
 from time import sleep
 from urllib.parse import quote
@@ -17,7 +16,7 @@ import humanize
 import pytz
 import requests
 from dotenv import load_dotenv
-from github import Github, GithubException, InputGitAuthor
+from github import Github, InputGitAuthor
 from pytz import timezone
 
 from loc import LinesOfCode
@@ -200,11 +199,8 @@ def make_graph(percent: float):
 def make_list(data: list):
     """Make List"""
     data_list = []
-    cnt = 7
-    for l in data[:cnt]:
+    for l in data[:7]:
         if l["percent"] < 1:
-            continue
-        if l["name"] == "Markdown":
             continue
         ln = len(l["name"])
         ln_text = len(l["text"])
@@ -427,21 +423,12 @@ def get_waka_time_stats():
             while tries < 5 and not tried:
                 tries += 1
                 try:
-                    len(data["data"]["languages"])
-                    lang_list = make_list(data["data"]["languages"])
-                    stats = (
-                        stats
-                        + "💬 "
-                        + translate["Languages"]
-                        + ": \n"
-                        + lang_list
-                        + "\n\n"
-                    )
+                    testvar = data["data"]["languages"]
                     tried = True
                     print("Successfully connected to Wakatime API.")
                     break
-                except Exception as ex:
-                    print("Error in Waka Time " + ex + " Trying again")
+                except Exception:
+                    print("Error in Waka Time, Trying again.")
                     tried = False
                     request = requests.get(
                         f"https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key={waka_key}"
@@ -452,6 +439,15 @@ def get_waka_time_stats():
                     break
             if tries == 5 and not tried:
                 print("Error in Waka Time, Skipping...")
+            else:
+                if len(data["data"]["languages"]) == 0:
+                    lang_list = no_activity
+                else:
+                    lang_list = make_list(data["data"]["languages"])
+                stats = (
+                    stats + "💬 " + translate["Languages"] + ": \n" + lang_list + "\n\n"
+                )
+
         if showEditors.lower() in truthy:
             empty = False
             if len(data["data"]["editors"]) == 0:
@@ -565,7 +561,7 @@ def get_short_info(github):
                 "https://github-contributions.now.sh/api/v1/" + user_info.login
             )
             tried = True
-            print("Successfully connected to github API")
+            print("Successfully connected to github API.")
             break
         except:
             print("Error with GitHub API. Trying again in 3 seconds.")
