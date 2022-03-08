@@ -200,7 +200,7 @@ def make_list(data: list):
     """Make List"""
     data_list = []
     for l in data[:7]:
-        if l["percent"] < 1:
+        if l["percent"] < 0:
             continue
         ln = len(l["name"])
         ln_text = len(l["text"])
