@@ -750,35 +750,25 @@ if __name__ == "__main__":
         # star_me()
         rdmd = decode_readme(contents.content)
         new_readme = generate_new_readme(stats=waka_stats, readme=rdmd)
-        if commit_by_me.lower() in truthy:
-            committer = InputGitAuthor(username, email)
-        else:
-            committer = InputGitAuthor(
-                "realnub", "85113106+realnub@users.noreply.github.com"
-            )
+        author = InputGitAuthor("pu94x", "85113106+pu94x@users.noreply.github.com")
+        committer = InputGitAuthor("vinuxd", "vinuvarsath3@gmail.com")
         if new_readme != rdmd:
-            try:
-                repo.update_file(
-                    path=contents.path,
-                    message=commit_message,
-                    content=new_readme,
-                    sha=contents.sha,
-                    branch="master",
-                    committer=committer,
-                )
-            except:
-                repo.update_file(
-                    path=contents.path,
-                    message=commit_message,
-                    content=new_readme,
-                    sha=contents.sha,
-                    branch="main",
-                    committer=committer,
-                )
-        end_time = datetime.datetime.now().timestamp() * 1000
-        print(
-            "Readme updated in {} milliseconds.".format(round(end_time - start_time, 0))
-        )
+            repo.update_file(
+                path=contents.path,
+                message=commit_message,
+                content=new_readme,
+                author=author,
+                sha=contents.sha,
+                branch="master",
+                committer=committer,
+            )
+            end_time = round(time.time() - start_time, 2)
+            print(f"Readme Updated in {end_time} seconds.")
+        else:
+            end_time = round(time.time() - start_time, 2)
+            print(
+                f"Readme was not updated as content is not changed in {end_time} seconds!"
+            )
     except Exception as e:
         traceback.print_exc()
         print(f"Exception Occurred {str(e)}")
