@@ -751,17 +751,16 @@ if __name__ == "__main__":
         # star_me()
         rdmd = decode_readme(contents.content)
         new_readme = generate_new_readme(stats=waka_stats, readme=rdmd)
-        author = InputGitAuthor("pu94x", "85113106+pu94x@users.noreply.github.com")
-        committer = InputGitAuthor("vinuxd", "vinuvarsath3@gmail.com")
+        AandC = InputGitAuthor("Anish-Shobith", "anish.shobith19@gmail.com")
         if new_readme != rdmd:
             repo.update_file(
                 path=contents.path,
                 message=commit_message,
                 content=new_readme,
-                author=author,
+                author=AandC,
                 sha=contents.sha,
                 branch="master",
-                committer=committer,
+                committer=AandC,
             )
             end_time = round(time.time() - start_time, 2)
             print(f"Readme Updated in {end_time} seconds.")
